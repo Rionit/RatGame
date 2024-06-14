@@ -1,0 +1,66 @@
+[gd_scene load_steps=12 format=3 uid="uid://bjk686hqbngwk"]
+
+[ext_resource type="Script" path="res://scripts/Player.gd" id="1_iauj3"]
+[ext_resource type="Script" path="res://scripts/Input.gd" id="2_eyc0x"]
+[ext_resource type="Script" path="res://scripts/Model.gd" id="3_waw45"]
+[ext_resource type="Script" path="res://scripts/moves/Idle.gd" id="4_2nkii"]
+[ext_resource type="Script" path="res://scripts/moves/Run.gd" id="5_53wap"]
+[ext_resource type="Script" path="res://scripts/moves/Jump.gd" id="6_32n37"]
+[ext_resource type="Script" path="res://scripts/moves/Sprint.gd" id="6_h100n"]
+[ext_resource type="Script" path="res://scripts/moves/Crouch.gd" id="8_b4lcm"]
+
+[sub_resource type="CapsuleMesh" id="CapsuleMesh_fa51u"]
+
+[sub_resource type="CapsuleShape3D" id="CapsuleShape3D_8dlul"]
+
+[sub_resource type="CapsuleShape3D" id="CapsuleShape3D_ig7i6"]
+height = 1.2
+
+[node name="Player" type="Node3D"]
+
+[node name="PlayerController" type="CharacterBody3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.0654788, 0)
+script = ExtResource("1_iauj3")
+
+[node name="Mesh" type="MeshInstance3D" parent="PlayerController"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0)
+mesh = SubResource("CapsuleMesh_fa51u")
+
+[node name="StandingCollision" type="CollisionShape3D" parent="PlayerController"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0)
+shape = SubResource("CapsuleShape3D_8dlul")
+disabled = true
+
+[node name="CrouchCollision" type="CollisionShape3D" parent="PlayerController"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.599442, 0)
+shape = SubResource("CapsuleShape3D_ig7i6")
+disabled = true
+
+[node name="Head" type="Node3D" parent="PlayerController"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.7, 0)
+
+[node name="Camera3D" type="Camera3D" parent="PlayerController/Head"]
+
+[node name="HeadRaycast" type="RayCast3D" parent="PlayerController"]
+target_position = Vector3(0, 2, 0)
+
+[node name="Input" type="Node" parent="PlayerController"]
+script = ExtResource("2_eyc0x")
+
+[node name="Model" type="Node" parent="PlayerController"]
+script = ExtResource("3_waw45")
+
+[node name="Idle" type="Node" parent="PlayerController/Model"]
+script = ExtResource("4_2nkii")
+
+[node name="Run" type="Node" parent="PlayerController/Model"]
+script = ExtResource("5_53wap")
+
+[node name="Sprint" type="Node" parent="PlayerController/Model"]
+script = ExtResource("6_h100n")
+
+[node name="Jump" type="Node" parent="PlayerController/Model"]
+script = ExtResource("6_32n37")
+
+[node name="Crouch" type="Node" parent="PlayerController/Model"]
+script = ExtResource("8_b4lcm")

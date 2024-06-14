@@ -1,0 +1,46 @@
+[gd_scene load_steps=7 format=3 uid="uid://bjk686hqbngwk"]
+
+[ext_resource type="Script" path="res://scripts/Player.gd" id="1_iauj3"]
+[ext_resource type="Script" path="res://scripts/HeadMovement.gd" id="2_kkh2j"]
+[ext_resource type="PackedScene" uid="uid://hx23w3x2ksp8" path="res://scenes/shakeable_camera.tscn" id="3_dl84w"]
+
+[sub_resource type="CapsuleMesh" id="CapsuleMesh_fa51u"]
+
+[sub_resource type="CapsuleShape3D" id="CapsuleShape3D_8dlul"]
+
+[sub_resource type="CapsuleShape3D" id="CapsuleShape3D_ig7i6"]
+height = 1.2
+
+[node name="Player" type="Node3D"]
+
+[node name="PlayerController" type="CharacterBody3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.0654788, 0)
+script = ExtResource("1_iauj3")
+
+[node name="Mesh" type="MeshInstance3D" parent="PlayerController"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0)
+mesh = SubResource("CapsuleMesh_fa51u")
+
+[node name="StandingCollision" type="CollisionShape3D" parent="PlayerController"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0)
+shape = SubResource("CapsuleShape3D_8dlul")
+disabled = true
+
+[node name="CrouchCollision" type="CollisionShape3D" parent="PlayerController"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.599442, 0)
+shape = SubResource("CapsuleShape3D_ig7i6")
+disabled = true
+
+[node name="Head" type="Node3D" parent="PlayerController"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.7, 0)
+script = ExtResource("2_kkh2j")
+
+[node name="ShakeableCamera" parent="PlayerController/Head" instance=ExtResource("3_dl84w")]
+
+[node name="HeadRaycast" type="RayCast3D" parent="PlayerController"]
+target_position = Vector3(0, 2, 0)
+
+[node name="SlideTimer" type="Timer" parent="PlayerController"]
+one_shot = true
+
+[connection signal="timeout" from="PlayerController/SlideTimer" to="PlayerController" method="_on_slide_timer_timeout"]
