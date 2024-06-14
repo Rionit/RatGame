@@ -22,6 +22,9 @@ func Physics_Update(_delta: float):
 	if Input.is_action_pressed("jump"):
 		Transitioned.emit(self, "PlayerJump")
 	
+	if !player.is_on_floor():
+		Transitioned.emit(self, "PlayerMidAir")
+	
 	handle_gravity(_delta)
 	handle_movement(_delta, input_dir)
 	player.velocity.x *= slide_timer.time_left + 0.2

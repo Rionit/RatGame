@@ -15,6 +15,9 @@ func Update(_delta: float):
 	
 	if Input.is_action_pressed("crouch"):
 		Transitioned.emit(self, "PlayerCrouch")
+	
+	if !player.is_on_floor():
+		Transitioned.emit(self, "PlayerMidAir")
 
 func Physics_Update(_delta: float):
 	var input_dir = Input.get_vector("left", "right", "up", "down")

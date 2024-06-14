@@ -1,8 +1,6 @@
 extends PlayerState
-class_name PlayerJump
+class_name PlayerMidAir
 
-func Enter():
-	player.velocity.y = JUMP_VELOCITY
 	
 func Physics_Update(_delta: float):
 	var input_dir = Input.get_vector("left", "right", "up", "down")

@@ -18,5 +18,8 @@ func Physics_Update(_delta: float):
 	if !Input.is_action_pressed("crouch") and not player.head.head_raycast.is_colliding():
 		Transitioned.emit(self, "PlayerIdle")
 	
+	if !player.is_on_floor():
+		Transitioned.emit(self, "PlayerMidAir")
+	
 	handle_gravity(_delta)
 	handle_movement(_delta, input_dir)

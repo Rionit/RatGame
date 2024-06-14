@@ -3,6 +3,7 @@ extends Node
 @export var initial_state : State
 
 var current_state : State
+var last_state : State
 var states : Dictionary = {}
 
 func _ready():
@@ -14,6 +15,7 @@ func _ready():
 	if initial_state:
 		initial_state.Enter()
 		current_state = initial_state
+		last_state = initial_state
 
 func _process(delta):
 	if current_state:
@@ -25,7 +27,7 @@ func _physics_process(delta):
 
 func on_child_transition(state, new_state_name):
 	Global.debug.add_property("Player State", new_state_name, 1)
-		
+	
 	if state != current_state:
 		return
 	
@@ -36,6 +38,8 @@ func on_child_transition(state, new_state_name):
 	if current_state:
 		current_state.Exit()
 	
-	new_state.Enter()
-	
+	last_state = current_state
 	current_state = new_state
+	
+	new_state.last_state = last_state
+	new_state.Enter()
