@@ -1,8 +1,9 @@
-[gd_scene load_steps=12 format=3 uid="uid://behe2w2cnkvcb"]
+[gd_scene load_steps=13 format=3 uid="uid://behe2w2cnkvcb"]
 
 [ext_resource type="PackedScene" uid="uid://bjk686hqbngwk" path="res://scenes/player.tscn" id="1_dfhwj"]
 [ext_resource type="PackedScene" uid="uid://c8pwxuolbgfwp" path="res://scenes/trauma_causer.tscn" id="1_eenrk"]
 [ext_resource type="Script" path="res://scripts/Testing.gd" id="1_y5yaw"]
+[ext_resource type="PackedScene" uid="uid://mwc0kv7qplm6" path="res://scenes/debug_interface.tscn" id="4_ly1lk"]
 
 [sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_fme3q"]
 sky_horizon_color = Color(0.64625, 0.65575, 0.67075, 1)
@@ -81,3 +82,12 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -6.18577, 0, 14.0807)
 shape = SubResource("SphereShape3D_8e8kg")
 
 [node name="Player" parent="." instance=ExtResource("1_dfhwj")]
+
+[node name="UI" type="Control" parent="."]
+layout_mode = 3
+anchors_preset = 0
+offset_right = 40.0
+offset_bottom = 40.0
+
+[node name="DebugInterface" parent="UI" instance=ExtResource("4_ly1lk")]
+layout_mode = 0
