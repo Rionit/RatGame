@@ -3,27 +3,27 @@ class_name PlayerSlide
 
 @onready var slide_timer = $SlideTimer
 
-func Enter():
+func enter():
 	player.speed = SLIDE_SPEED
 	player.head.CROUCH_DEPTH = CROUCHING_DEPTH
 	player.standing_collision.disabled = true
 	player.crouch_collision.disabled = false
 	slide_timer.start()
 
-func Exit():
+func exit():
 	player.standing_collision.disabled = false
 	player.crouch_collision.disabled = true
 	player.head.CROUCH_DEPTH = 0.0
 	slide_timer.stop()
 
-func Physics_Update(_delta: float):
+func physics_update(_delta: float):
 	var input_dir = Input.get_vector("left", "right", "up", "down")
 	
 	if Input.is_action_pressed("jump"):
-		Transitioned.emit(self, "PlayerJump")
+		transitioned.emit(self, "PlayerJump")
 	
 	if !player.is_on_floor():
-		Transitioned.emit(self, "PlayerMidAir")
+		transitioned.emit(self, "PlayerMidAir")
 	
 	handle_gravity(_delta)
 	handle_movement(_delta, input_dir)
@@ -32,6 +32,6 @@ func Physics_Update(_delta: float):
 
 func _on_slide_timer_timeout():
 	if player.head.head_raycast.is_colliding():
-		Transitioned.emit(self, "PlayerCrouch")
+		transitioned.emit(self, "PlayerCrouch")
 	else:
-		Transitioned.emit(self, "PlayerIdle")
+		transitioned.emit(self, "PlayerIdle")

@@ -1,17 +1,17 @@
 extends Node
 class_name State
 
-signal Transitioned
+signal transitioned
 var last_state : State
 
-func Enter():
+func enter():
 	pass
 	
-func Exit():
+func exit():
 	pass
 
-func Update(_delta: float):
+func update(_delta: float):
 	pass
 
-func Physics_Update(_delta: float):
+func physics_update(_delta: float):
 	pass

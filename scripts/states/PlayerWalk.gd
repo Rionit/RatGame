@@ -2,28 +2,28 @@ extends PlayerState
 class_name PlayerWalk
 
 
-func Enter():
+func enter():
 	player.speed = WALK_SPEED
 	
 
-func Update(_delta: float):
+func update(_delta: float):
 	if Input.is_action_pressed("sprint"):
-		Transitioned.emit(self, "PlayerSprint")
+		transitioned.emit(self, "PlayerSprint")
 	
 	if Input.is_action_pressed("jump") and player.is_on_floor():
-		Transitioned.emit(self, "PlayerJump")
+		transitioned.emit(self, "PlayerJump")
 	
 	if Input.is_action_pressed("crouch"):
-		Transitioned.emit(self, "PlayerCrouch")
+		transitioned.emit(self, "PlayerCrouch")
 	
 	if !player.is_on_floor():
-		Transitioned.emit(self, "PlayerMidAir")
+		transitioned.emit(self, "PlayerMidAir")
 
-func Physics_Update(_delta: float):
+func physics_update(_delta: float):
 	var input_dir = Input.get_vector("left", "right", "up", "down")
 	
 	if input_dir == Vector2.ZERO:
-		Transitioned.emit(self, "PlayerIdle")
+		transitioned.emit(self, "PlayerIdle")
 	
 	handle_gravity(_delta)
 	handle_movement(_delta, input_dir)

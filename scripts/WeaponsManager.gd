@@ -6,8 +6,8 @@ signal update_weapon_stack
 
 @onready var animation_player = get_node("%AnimationPlayer")
 
-var current_weapon = null
-var weapon_stack = [] # array of weapons player has rn
+var current_weapon : WeaponResource = null
+var weapon_stack : Array[String] = [] # array of weapons player has rn
 var weapon_indicator = 0
 var next_weapon: String
 var weapon_list = {}
@@ -15,8 +15,10 @@ var weapon_list = {}
 @export var _weapon_resources: Array[WeaponResource]
 @export var start_weapons: Array[String]
 
+enum {NULL, HITSCAN, PROJECTILE}
+
 func _ready():
-	Initialize(start_weapons)
+	initialize(start_weapons)
 	
 func _input(event):
 	if event.is_action_pressed("weapon_up"):
@@ -33,7 +35,7 @@ func _input(event):
 	if event.is_action_pressed("reload"):
 		reload()
 
-func Initialize(_start_weapons: Array[String]):
+func initialize(_start_weapons: Array[String]):
 	for weapon in _weapon_resources:
 		weapon_list[weapon.weapon_name] = weapon
 	
@@ -54,14 +56,14 @@ func exit(_next_weapon: String):
 			animation_player.play(current_weapon.anim_deactivate)
 			next_weapon = _next_weapon
 
-func Change_Weapon(weapon_name: String):
+func change_weapon(weapon_name: String):
 	current_weapon = weapon_list[weapon_name]
 	next_weapon = ""
 	enter()
 
 func _on_animation_player_animation_finished(anim_name):
 	if current_weapon.anim_deactivate == anim_name:
-		Change_Weapon(next_weapon)
+		change_weapon(next_weapon)
 	
 	if anim_name == current_weapon.anim_shoot && current_weapon.auto_fire:
 		if Input.is_action_pressed("shoot"):
@@ -73,6 +75,16 @@ func shoot():
 			animation_player.play(current_weapon.anim_shoot)
 			current_weapon.current_ammo -= 1
 			emit_signal("update_ammo", [current_weapon.current_ammo, current_weapon.reserve_ammo])
+			
+			var camera_collision = get_camera_collision()
+			
+			match current_weapon.Type:
+				NULL:
+					print("Weapon type not chosen")
+				HITSCAN:
+					hit_scan_collision(camera_collision)
+				PROJECTILE:
+					pass
 
 func reload():
 	if current_weapon.current_ammo == current_weapon.magazine:
@@ -89,3 +101,42 @@ func reload():
 		else:
 			pass
 			#animation_player.play(current_weapon) out of ammo
+
+func get_ray():
+	var camera = get_viewport().get_camera_3d()
+	var viewport = get_viewport().get_size()
+	
+	var ray_origin = camera.project_ray_origin(viewport/2)
+	var ray_end = ray_origin + camera.project_ray_normal(viewport/2)*current_weapon.weapon_range
+	return [ray_origin, ray_end]
+
+func get_camera_collision() -> Vector3:
+	var ray = get_ray()
+	var ray_origin = ray[0]
+	var ray_end = ray[1]
+	
+	var new_intersection = PhysicsRayQueryParameters3D.create(ray_origin, ray_end)
+	var intersection = get_world_3d().direct_space_state.intersect_ray(new_intersection)
+	
+	if not intersection.is_empty():
+		var col_point = intersection.position
+		return col_point
+	else:
+		return ray_end
+
+func hit_scan_collision(collision_point):
+	var ray = get_ray()
+	var ray_origin = ray[0]
+	
+	var bullet_direction = (collision_point - ray_origin).normalized()
+	var new_intersection = PhysicsRayQueryParameters3D.create(ray_origin, collision_point+bullet_direction*2)
+	
+	var bullet_collision = get_world_3d().direct_space_state.intersect_ray(new_intersection)
+	
+	if bullet_collision:
+		hit_scan_damage(bullet_collision.collider)
+	
+func hit_scan_damage(collider):
+	if collider.is_in_group("Target") and collider.has_method("hit_successful"):
+		collider.hit_successful(current_weapon.damage)
+
