@@ -91,3 +91,7 @@ offset_bottom = 40.0
 
 [node name="DebugInterface" parent="UI" instance=ExtResource("4_ly1lk")]
 layout_mode = 0
+offset_left = 0.0
+offset_top = 0.0
+offset_right = 200.0
+offset_bottom = 40.0

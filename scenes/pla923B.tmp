@@ -1,0 +1,80 @@
+[gd_scene load_steps=14 format=3 uid="uid://bjk686hqbngwk"]
+
+[ext_resource type="Script" path="res://scripts/Player.gd" id="1_iauj3"]
+[ext_resource type="Script" path="res://scripts/HeadMovement.gd" id="2_kkh2j"]
+[ext_resource type="PackedScene" uid="uid://hx23w3x2ksp8" path="res://scenes/shakeable_camera.tscn" id="3_dl84w"]
+[ext_resource type="Script" path="res://scripts/StateMachine.gd" id="4_n87lm"]
+[ext_resource type="Script" path="res://scripts/states/PlayerIdle.gd" id="5_wrh3v"]
+[ext_resource type="Script" path="res://scripts/states/PlayerWalk.gd" id="6_hauiv"]
+[ext_resource type="Script" path="res://scripts/states/PlayerSprint.gd" id="7_tldwg"]
+[ext_resource type="Script" path="res://scripts/states/PlayerJump.gd" id="8_sy8tw"]
+[ext_resource type="Script" path="res://scripts/states/PlayerCrouch.gd" id="9_w0esf"]
+[ext_resource type="Script" path="res://scripts/states/PlayerSlide.gd" id="10_c8sae"]
+
+[sub_resource type="CapsuleMesh" id="CapsuleMesh_fa51u"]
+
+[sub_resource type="CapsuleShape3D" id="CapsuleShape3D_8dlul"]
+
+[sub_resource type="CapsuleShape3D" id="CapsuleShape3D_ig7i6"]
+height = 1.2
+
+[node name="Player" type="Node3D"]
+
+[node name="PlayerController" type="CharacterBody3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.0654788, 0)
+script = ExtResource("1_iauj3")
+
+[node name="Mesh" type="MeshInstance3D" parent="PlayerController"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0)
+mesh = SubResource("CapsuleMesh_fa51u")
+
+[node name="StandingCollision" type="CollisionShape3D" parent="PlayerController"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0)
+shape = SubResource("CapsuleShape3D_8dlul")
+
+[node name="CrouchCollision" type="CollisionShape3D" parent="PlayerController"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.599442, 0)
+shape = SubResource("CapsuleShape3D_ig7i6")
+disabled = true
+
+[node name="Head" type="Node3D" parent="PlayerController"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.7, 0)
+script = ExtResource("2_kkh2j")
+
+[node name="ShakeableCamera" parent="PlayerController/Head" instance=ExtResource("3_dl84w")]
+
+[node name="HeadRaycast" type="RayCast3D" parent="PlayerController"]
+target_position = Vector3(0, 2, 0)
+
+[node name="State Machine" type="Node" parent="PlayerController" node_paths=PackedStringArray("initial_state")]
+script = ExtResource("4_n87lm")
+initial_state = NodePath("PlayerIdle")
+
+[node name="PlayerIdle" type="Node" parent="PlayerController/State Machine" node_paths=PackedStringArray("player")]
+script = ExtResource("5_wrh3v")
+player = NodePath("../..")
+
+[node name="PlayerWalk" type="Node" parent="PlayerController/State Machine" node_paths=PackedStringArray("player")]
+script = ExtResource("6_hauiv")
+player = NodePath("../..")
+
+[node name="PlayerSprint" type="Node" parent="PlayerController/State Machine" node_paths=PackedStringArray("player")]
+script = ExtResource("7_tldwg")
+player = NodePath("../..")
+
+[node name="PlayerJump" type="Node" parent="PlayerController/State Machine" node_paths=PackedStringArray("player")]
+script = ExtResource("8_sy8tw")
+player = NodePath("../..")
+
+[node name="PlayerCrouch" type="Node" parent="PlayerController/State Machine" node_paths=PackedStringArray("player")]
+script = ExtResource("9_w0esf")
+player = NodePath("../..")
+
+[node name="PlayerSlide" type="Node" parent="PlayerController/State Machine" node_paths=PackedStringArray("player")]
+script = ExtResource("10_c8sae")
+player = NodePath("../..")
+
+[node name="SlideTimer" type="Timer" parent="PlayerController/State Machine/PlayerSlide"]
+one_shot = true
+
+[connection signal="timeout" from="PlayerController/State Machine/PlayerSlide/SlideTimer" to="PlayerController/State Machine/PlayerSlide" method="_on_slide_timer_timeout"]

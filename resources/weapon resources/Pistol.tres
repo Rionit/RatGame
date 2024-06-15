@@ -1,0 +1,15 @@
+[gd_resource type="Resource" script_class="WeaponResource" load_steps=2 format=3 uid="uid://cdudcwxx4g6yv"]
+
+[ext_resource type="Script" path="res://resources/WeaponResource.gd" id="1_3l55y"]
+
+[resource]
+script = ExtResource("1_3l55y")
+weapon_name = "Pistol"
+anim_activate = "pistol_activate"
+anim_deactivate = "pistol_deactivate"
+anim_shoot = "pistol_shoot"
+current_ammo = 10
+reserve_ammo = 10
+magazine = 10
+max_ammo = 20
+auto_fire = false

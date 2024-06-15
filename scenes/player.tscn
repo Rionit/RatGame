@@ -1,15 +1,21 @@
-[gd_scene load_steps=14 format=3 uid="uid://bjk686hqbngwk"]
+[gd_scene load_steps=28 format=3 uid="uid://bjk686hqbngwk"]
 
 [ext_resource type="Script" path="res://scripts/Player.gd" id="1_iauj3"]
 [ext_resource type="Script" path="res://scripts/HeadMovement.gd" id="2_kkh2j"]
 [ext_resource type="PackedScene" uid="uid://hx23w3x2ksp8" path="res://scenes/shakeable_camera.tscn" id="3_dl84w"]
+[ext_resource type="Script" path="res://scripts/WeaponsManager.gd" id="4_j0n71"]
 [ext_resource type="Script" path="res://scripts/StateMachine.gd" id="4_n87lm"]
+[ext_resource type="Resource" uid="uid://cdudcwxx4g6yv" path="res://resources/weapon resources/Pistol.tres" id="5_gqqtc"]
 [ext_resource type="Script" path="res://scripts/states/PlayerIdle.gd" id="5_wrh3v"]
 [ext_resource type="Script" path="res://scripts/states/PlayerWalk.gd" id="6_hauiv"]
+[ext_resource type="Resource" uid="uid://b45tkk0g6j1bc" path="res://resources/weapon resources/BlasterA.tres" id="6_mj50e"]
+[ext_resource type="PackedScene" uid="uid://dp7bslca1lcq1" path="res://meshes/weapons/Pistol_3.glb" id="7_216v7"]
 [ext_resource type="Script" path="res://scripts/states/PlayerSprint.gd" id="7_tldwg"]
+[ext_resource type="PackedScene" uid="uid://j3jqadyosf80" path="res://meshes/weapons/blasterA.glb" id="8_70bh4"]
 [ext_resource type="Script" path="res://scripts/states/PlayerJump.gd" id="8_sy8tw"]
 [ext_resource type="Script" path="res://scripts/states/PlayerCrouch.gd" id="9_w0esf"]
 [ext_resource type="Script" path="res://scripts/states/PlayerSlide.gd" id="10_c8sae"]
+[ext_resource type="Script" path="res://scripts/states/PlayerMidAir.gd" id="11_qa8fk"]
 
 [sub_resource type="CapsuleMesh" id="CapsuleMesh_fa51u"]
 
@@ -17,6 +23,308 @@
 
 [sub_resource type="CapsuleShape3D" id="CapsuleShape3D_ig7i6"]
 height = 1.2
+
+[sub_resource type="Animation" id="Animation_odx4l"]
+resource_name = "pistol_activate"
+length = 0.5
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Pistol:position")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.5),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Vector3(0, -0.966354, 0), Vector3(0.3, -0.3, -0.385)]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("Pistol:visible")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0, 0.1),
+"transitions": PackedFloat32Array(1, 1),
+"update": 1,
+"values": [false, true]
+}
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("Pistol:rotation")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0.2, 0.5),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Vector3(-0.358612, 2.7856, -0.756544), Vector3(0, 1.5708, 0)]
+}
+
+[sub_resource type="Animation" id="Animation_cglap"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Pistol:position")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector3(0, -0.966354, 0)]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("Pistol:visible")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [false]
+}
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("Pistol:rotation")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector3(0, 1.5708, 0)]
+}
+tracks/3/type = "value"
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/path = NodePath("blasterA:position")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector3(0.148252, -0.966354, 0)]
+}
+tracks/4/type = "value"
+tracks/4/imported = false
+tracks/4/enabled = true
+tracks/4/path = NodePath("blasterA:visible")
+tracks/4/interp = 1
+tracks/4/loop_wrap = true
+tracks/4/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [false]
+}
+tracks/5/type = "value"
+tracks/5/imported = false
+tracks/5/enabled = true
+tracks/5/path = NodePath("blasterA:rotation")
+tracks/5/interp = 1
+tracks/5/loop_wrap = true
+tracks/5/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector3(0, 0, 0)]
+}
+
+[sub_resource type="Animation" id="Animation_lvux3"]
+resource_name = "pistol_deactivate"
+length = 0.5
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Pistol:visible")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.5),
+"transitions": PackedFloat32Array(1, 1),
+"update": 1,
+"values": [true, false]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("Pistol:rotation")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0, 0.2),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Vector3(0, 1.5708, 0), Vector3(2.81433e-08, 1.5708, -0.69951)]
+}
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("Pistol:position")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0, 0.5),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Vector3(0.3, -0.3, -0.385), Vector3(0.33, -0.696408, -0.12064)]
+}
+
+[sub_resource type="Animation" id="Animation_guwth"]
+resource_name = "pistol_shoot"
+length = 0.2
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Pistol:position")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.2),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Vector3(0.3, -0.27592, -0.337243), Vector3(0.3, -0.3, -0.385)]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("Pistol:rotation")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0, 0.2),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Vector3(-7.31752e-09, 1.5708, 0.168197), Vector3(0, 1.5708, 0)]
+}
+
+[sub_resource type="Animation" id="Animation_jgqxw"]
+resource_name = "blaster_activate"
+length = 0.6
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("blasterA:position")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.6),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Vector3(-0.119767, -0.966354, 0), Vector3(0.0958818, -0.323081, -0.682838)]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("blasterA:visible")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0, 0.1),
+"transitions": PackedFloat32Array(1, 1),
+"update": 1,
+"values": [false, true]
+}
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("blasterA:rotation")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0.1, 0.6),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Vector3(0, 4.36332, 0), Vector3(0, 3.14159, 0)]
+}
+
+[sub_resource type="Animation" id="Animation_oue2r"]
+resource_name = "blaster_deactivate"
+length = 0.5
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("blasterA:rotation")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.5),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Vector3(0, 3.14159, 0), Vector3(0.682424, 3.49066, 0)]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("blasterA:position")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0, 0.5),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Vector3(0.0958818, -0.323081, -0.682838), Vector3(0.0958818, -0.603985, -0.35324)]
+}
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("blasterA:visible")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0, 0.5),
+"transitions": PackedFloat32Array(1, 1),
+"update": 1,
+"values": [true, false]
+}
+
+[sub_resource type="Animation" id="Animation_v08ps"]
+resource_name = "blaster_shoot"
+length = 0.6
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("blasterA:position")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.1, 0.6),
+"transitions": PackedFloat32Array(1, 1, 1),
+"update": 0,
+"values": [Vector3(0.0958818, -0.323081, -0.682838), Vector3(0.0958818, -0.134263, -0.501961), Vector3(0.0958818, -0.323081, -0.682838)]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("blasterA:rotation")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0, 0.1, 0.6),
+"transitions": PackedFloat32Array(1, 1, 1),
+"update": 0,
+"values": [Vector3(0, 3.14159, 0), Vector3(-0.223364, 3.1269, 0.0662426), Vector3(0, 3.14159, 0)]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_xsl1q"]
+_data = {
+"RESET": SubResource("Animation_cglap"),
+"blaster_activate": SubResource("Animation_jgqxw"),
+"blaster_deactivate": SubResource("Animation_oue2r"),
+"blaster_shoot": SubResource("Animation_v08ps"),
+"pistol_activate": SubResource("Animation_odx4l"),
+"pistol_deactivate": SubResource("Animation_lvux3"),
+"pistol_shoot": SubResource("Animation_guwth")
+}
 
 [node name="Player" type="Node3D"]
 
@@ -26,6 +334,7 @@ script = ExtResource("1_iauj3")
 
 [node name="Mesh" type="MeshInstance3D" parent="PlayerController"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0)
+visible = false
 mesh = SubResource("CapsuleMesh_fa51u")
 
 [node name="StandingCollision" type="CollisionShape3D" parent="PlayerController"]
@@ -42,6 +351,27 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.7, 0)
 script = ExtResource("2_kkh2j")
 
 [node name="ShakeableCamera" parent="PlayerController/Head" instance=ExtResource("3_dl84w")]
+
+[node name="WeaponsManager" type="Node3D" parent="PlayerController/Head/ShakeableCamera"]
+script = ExtResource("4_j0n71")
+_weapon_resources = Array[Resource("res://resources/WeaponResource.gd")]([ExtResource("5_gqqtc"), ExtResource("6_mj50e")])
+start_weapons = Array[String](["Pistol", "BlasterA"])
+
+[node name="WeaponRig" type="Node3D" parent="PlayerController/Head/ShakeableCamera/WeaponsManager"]
+
+[node name="Pistol" parent="PlayerController/Head/ShakeableCamera/WeaponsManager/WeaponRig" instance=ExtResource("7_216v7")]
+transform = Transform3D(-4.37114e-08, 0, 1, 0, 1, 0, -1, 0, -4.37114e-08, 0, -0.966354, 0)
+visible = false
+
+[node name="blasterA" parent="PlayerController/Head/ShakeableCamera/WeaponsManager/WeaponRig" instance=ExtResource("8_70bh4")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.148252, -0.966354, 0)
+visible = false
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="PlayerController/Head/ShakeableCamera/WeaponsManager/WeaponRig"]
+unique_name_in_owner = true
+libraries = {
+"": SubResource("AnimationLibrary_xsl1q")
+}
 
 [node name="HeadRaycast" type="RayCast3D" parent="PlayerController"]
 target_position = Vector3(0, 2, 0)
@@ -77,4 +407,9 @@ player = NodePath("../..")
 [node name="SlideTimer" type="Timer" parent="PlayerController/State Machine/PlayerSlide"]
 one_shot = true
 
+[node name="PlayerMidAir" type="Node" parent="PlayerController/State Machine" node_paths=PackedStringArray("player")]
+script = ExtResource("11_qa8fk")
+player = NodePath("../..")
+
+[connection signal="animation_finished" from="PlayerController/Head/ShakeableCamera/WeaponsManager/WeaponRig/AnimationPlayer" to="PlayerController/Head/ShakeableCamera/WeaponsManager" method="_on_animation_player_animation_finished"]
 [connection signal="timeout" from="PlayerController/State Machine/PlayerSlide/SlideTimer" to="PlayerController/State Machine/PlayerSlide" method="_on_slide_timer_timeout"]
