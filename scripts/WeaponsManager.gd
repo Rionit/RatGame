@@ -30,8 +30,8 @@ func _input(event):
 	if event.is_action_pressed("shoot"):
 		shoot()
 		
-	if event.is_action_pressed("reload"):
-		shoot()
+	#if event.is_action_pressed("reload"):
+		#shoot()
 
 func Initialize(_start_weapons: Array[String]):
 	for weapon in _weapon_resources:

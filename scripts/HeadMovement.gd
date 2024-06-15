@@ -32,11 +32,11 @@ func update_fov(velocity, delta):
 func update_tilt(delta):
 	var heading = Input.get_axis("left", "right")
 	if heading > 0:
-		camera.rotation.z = lerp_angle(camera.rotation.z, deg_to_rad(-TILT_ANGLE), delta * 2)
+		$ShakeableCamera.rotation.z = lerp_angle($ShakeableCamera.rotation.z, deg_to_rad(-TILT_ANGLE), delta * 2)
 	elif heading < 0:
-		camera.rotation.z = lerp_angle(camera.rotation.z, deg_to_rad(TILT_ANGLE), delta * 2)
+		$ShakeableCamera.rotation.z = lerp_angle($ShakeableCamera.rotation.z, deg_to_rad(TILT_ANGLE), delta * 2)
 	else:
-		camera.rotation.z = lerp_angle(camera.rotation.z, 0.0, delta * 4)
+		$ShakeableCamera.rotation.z = lerp_angle($ShakeableCamera.rotation.z, 0.0, delta * 4)
 
 func _headbob(time) -> Vector3:
 	var pos = Vector3.ZERO
