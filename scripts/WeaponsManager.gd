@@ -12,6 +12,8 @@ var weapon_indicator = 0
 var next_weapon: String
 var weapon_list = {}
 
+var debug_bullet = preload("res://scenes/bullet_debug.tscn")
+
 @export var _weapon_resources: Array[WeaponResource]
 @export var start_weapons: Array[String]
 
@@ -134,6 +136,11 @@ func hit_scan_collision(collision_point):
 	var bullet_collision = get_world_3d().direct_space_state.intersect_ray(new_intersection)
 	
 	if bullet_collision:
+		var hit_indicator = debug_bullet.instantiate()
+		var world = get_tree().get_root().get_child(0)
+		world.add_child(hit_indicator)
+		hit_indicator.global_translate(bullet_collision.position)
+		
 		hit_scan_damage(bullet_collision.collider)
 	
 func hit_scan_damage(collider):
