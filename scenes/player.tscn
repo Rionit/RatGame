@@ -1,6 +1,7 @@
-[gd_scene load_steps=28 format=3 uid="uid://bjk686hqbngwk"]
+[gd_scene load_steps=29 format=3 uid="uid://bjk686hqbngwk"]
 
 [ext_resource type="Script" path="res://scripts/Player.gd" id="1_iauj3"]
+[ext_resource type="Script" path="res://scripts/HUD.gd" id="2_aqg73"]
 [ext_resource type="Script" path="res://scripts/HeadMovement.gd" id="2_kkh2j"]
 [ext_resource type="PackedScene" uid="uid://hx23w3x2ksp8" path="res://scenes/shakeable_camera.tscn" id="3_dl84w"]
 [ext_resource type="Script" path="res://scripts/WeaponsManager.gd" id="4_j0n71"]
@@ -332,6 +333,43 @@ _data = {
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.0654788, 0)
 script = ExtResource("1_iauj3")
 
+[node name="CanvasLayer" type="CanvasLayer" parent="PlayerController"]
+script = ExtResource("2_aqg73")
+
+[node name="VBoxContainer" type="VBoxContainer" parent="PlayerController/CanvasLayer"]
+offset_right = 40.0
+offset_bottom = 40.0
+
+[node name="HBoxContainer" type="HBoxContainer" parent="PlayerController/CanvasLayer/VBoxContainer"]
+layout_mode = 2
+
+[node name="label" type="Label" parent="PlayerController/CanvasLayer/VBoxContainer/HBoxContainer"]
+layout_mode = 2
+
+[node name="CurrentWeapon" type="Label" parent="PlayerController/CanvasLayer/VBoxContainer/HBoxContainer"]
+layout_mode = 2
+text = "Current Weapon:"
+
+[node name="HBoxContainer2" type="HBoxContainer" parent="PlayerController/CanvasLayer/VBoxContainer"]
+layout_mode = 2
+
+[node name="label" type="Label" parent="PlayerController/CanvasLayer/VBoxContainer/HBoxContainer2"]
+layout_mode = 2
+
+[node name="CurrentAmmo" type="Label" parent="PlayerController/CanvasLayer/VBoxContainer/HBoxContainer2"]
+layout_mode = 2
+text = "Ammo: "
+
+[node name="HBoxContainer3" type="HBoxContainer" parent="PlayerController/CanvasLayer/VBoxContainer"]
+layout_mode = 2
+
+[node name="label" type="Label" parent="PlayerController/CanvasLayer/VBoxContainer/HBoxContainer3"]
+layout_mode = 2
+
+[node name="WeaponStack" type="Label" parent="PlayerController/CanvasLayer/VBoxContainer/HBoxContainer3"]
+layout_mode = 2
+text = "Weapon Stack: "
+
 [node name="Mesh" type="MeshInstance3D" parent="PlayerController"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0)
 visible = false
@@ -411,5 +449,8 @@ one_shot = true
 script = ExtResource("11_qa8fk")
 player = NodePath("../..")
 
+[connection signal="update_ammo" from="PlayerController/Head/ShakeableCamera/WeaponsManager" to="PlayerController/CanvasLayer" method="_on_weapons_manager_update_ammo"]
+[connection signal="update_weapon_stack" from="PlayerController/Head/ShakeableCamera/WeaponsManager" to="PlayerController/CanvasLayer" method="_on_weapons_manager_update_weapon_stack"]
+[connection signal="weapon_changed" from="PlayerController/Head/ShakeableCamera/WeaponsManager" to="PlayerController/CanvasLayer" method="_on_weapons_manager_weapon_changed"]
 [connection signal="animation_finished" from="PlayerController/Head/ShakeableCamera/WeaponsManager/WeaponRig/AnimationPlayer" to="PlayerController/Head/ShakeableCamera/WeaponsManager" method="_on_animation_player_animation_finished"]
 [connection signal="timeout" from="PlayerController/State Machine/PlayerSlide/SlideTimer" to="PlayerController/State Machine/PlayerSlide" method="_on_slide_timer_timeout"]

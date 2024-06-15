@@ -36,6 +36,19 @@ radius = 7.92263
 [node name="World" type="Node3D"]
 script = ExtResource("1_y5yaw")
 
+[node name="UI" type="Control" parent="."]
+layout_mode = 3
+anchors_preset = 0
+offset_right = 40.0
+offset_bottom = 40.0
+
+[node name="DebugInterface" parent="UI" instance=ExtResource("4_ly1lk")]
+layout_mode = 0
+offset_left = 0.0
+offset_top = 0.0
+offset_right = 200.0
+offset_bottom = 40.0
+
 [node name="DirectionalLight3D" type="DirectionalLight3D" parent="."]
 transform = Transform3D(-0.866025, -0.433013, 0.25, 0, 0.5, 0.866025, -0.5, 0.75, -0.433013, 0, 0, 0)
 shadow_enabled = true
@@ -82,16 +95,3 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -6.18577, 0, 14.0807)
 shape = SubResource("SphereShape3D_8e8kg")
 
 [node name="Player" parent="." instance=ExtResource("1_dfhwj")]
-
-[node name="UI" type="Control" parent="."]
-layout_mode = 3
-anchors_preset = 0
-offset_right = 40.0
-offset_bottom = 40.0
-
-[node name="DebugInterface" parent="UI" instance=ExtResource("4_ly1lk")]
-layout_mode = 0
-offset_left = 0.0
-offset_top = 0.0
-offset_right = 200.0
-offset_bottom = 40.0

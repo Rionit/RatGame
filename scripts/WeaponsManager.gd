@@ -30,8 +30,8 @@ func _input(event):
 	if event.is_action_pressed("shoot"):
 		shoot()
 		
-	#if event.is_action_pressed("reload"):
-		#shoot()
+	if event.is_action_pressed("reload"):
+		reload()
 
 func Initialize(_start_weapons: Array[String]):
 	for weapon in _weapon_resources:
@@ -40,10 +40,13 @@ func Initialize(_start_weapons: Array[String]):
 	for i in _start_weapons:
 		weapon_stack.push_back(i)
 	current_weapon = weapon_list[weapon_stack[0]]
+	emit_signal("update_weapon_stack", weapon_stack)
 	enter()
 	
 func enter():
 	animation_player.queue(current_weapon.anim_activate)
+	emit_signal("weapon_changed", current_weapon.weapon_name)
+	emit_signal("update_ammo", [current_weapon.current_ammo, current_weapon.reserve_ammo])
 
 func exit(_next_weapon: String):
 	if _next_weapon != current_weapon.weapon_name:
@@ -59,9 +62,30 @@ func Change_Weapon(weapon_name: String):
 func _on_animation_player_animation_finished(anim_name):
 	if current_weapon.anim_deactivate == anim_name:
 		Change_Weapon(next_weapon)
+	
+	if anim_name == current_weapon.anim_shoot && current_weapon.auto_fire:
+		if Input.is_action_pressed("shoot"):
+			shoot()
 
 func shoot():
-	animation_player.play(current_weapon.anim_shoot)
-	
+	if current_weapon.current_ammo != 0:
+		if !animation_player.is_playing():
+			animation_player.play(current_weapon.anim_shoot)
+			current_weapon.current_ammo -= 1
+			emit_signal("update_ammo", [current_weapon.current_ammo, current_weapon.reserve_ammo])
+
 func reload():
-	pass
+	if current_weapon.current_ammo == current_weapon.magazine:
+		return
+	elif !animation_player.is_playing():
+		if current_weapon.reserve_ammo != 0:
+			# anim reload
+			var reload_amount = min(current_weapon.magazine - current_weapon.current_ammo, current_weapon.magazine, current_weapon.reserve_ammo)
+			
+			current_weapon.current_ammo += reload_amount 
+			current_weapon.reserve_ammo -= reload_amount
+			
+			emit_signal("update_ammo", [current_weapon.current_ammo, current_weapon.reserve_ammo])
+		else:
+			pass
+			#animation_player.play(current_weapon) out of ammo
