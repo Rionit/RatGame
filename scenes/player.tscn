@@ -1,4 +1,4 @@
-[gd_scene load_steps=30 format=3 uid="uid://bjk686hqbngwk"]
+[gd_scene load_steps=33 format=3 uid="uid://bjk686hqbngwk"]
 
 [ext_resource type="Script" path="res://scripts/Player.gd" id="1_iauj3"]
 [ext_resource type="Script" path="res://scripts/HUD.gd" id="2_aqg73"]
@@ -13,7 +13,9 @@
 [ext_resource type="Resource" uid="uid://b45tkk0g6j1bc" path="res://resources/weapon resources/BlasterA.tres" id="6_mj50e"]
 [ext_resource type="PackedScene" uid="uid://dp7bslca1lcq1" path="res://meshes/weapons/Pistol_3.glb" id="7_216v7"]
 [ext_resource type="Script" path="res://scripts/states/PlayerSprint.gd" id="7_tldwg"]
+[ext_resource type="PackedScene" uid="uid://g806mhibjyum" path="res://spawnable weapons/pistol.tscn" id="7_wqid5"]
 [ext_resource type="PackedScene" uid="uid://j3jqadyosf80" path="res://meshes/weapons/blasterA.glb" id="8_70bh4"]
+[ext_resource type="PackedScene" uid="uid://dvpcr5ayw6wfa" path="res://spawnable weapons/blasterA.tscn" id="8_s4vhq"]
 [ext_resource type="Script" path="res://scripts/states/PlayerJump.gd" id="8_sy8tw"]
 [ext_resource type="Script" path="res://scripts/states/PlayerCrouch.gd" id="9_w0esf"]
 [ext_resource type="Script" path="res://scripts/states/PlayerSlide.gd" id="10_c8sae"]
@@ -328,10 +330,14 @@ _data = {
 "pistol_shoot": SubResource("Animation_guwth")
 }
 
+[sub_resource type="BoxShape3D" id="BoxShape3D_4mnk3"]
+size = Vector3(1.66797, 1, 1.57813)
+
 [node name="Player" type="Node3D"]
 
 [node name="PlayerController" type="CharacterBody3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.0654788, 0)
+collision_layer = 2
 script = ExtResource("1_iauj3")
 
 [node name="CanvasLayer" type="CanvasLayer" parent="PlayerController"]
@@ -404,8 +410,9 @@ script = ExtResource("2_kkh2j")
 
 [node name="WeaponsManager" type="Node3D" parent="PlayerController/Head/ShakeableCamera"]
 script = ExtResource("4_j0n71")
+_weapon_droppables = Array[PackedScene]([ExtResource("7_wqid5"), ExtResource("8_s4vhq")])
 _weapon_resources = Array[Resource("res://resources/WeaponResource.gd")]([ExtResource("5_gqqtc"), ExtResource("6_mj50e")])
-start_weapons = Array[String](["Pistol", "BlasterA"])
+start_weapons = Array[String](["BlasterA"])
 
 [node name="WeaponRig" type="Node3D" parent="PlayerController/Head/ShakeableCamera/WeaponsManager"]
 
@@ -422,6 +429,14 @@ unique_name_in_owner = true
 libraries = {
 "": SubResource("AnimationLibrary_xsl1q")
 }
+
+[node name="Reach" type="RayCast3D" parent="PlayerController/Head"]
+unique_name_in_owner = true
+target_position = Vector3(0, 0, -3)
+collision_mask = 9
+
+[node name="TemporaryMuzzle" type="Node3D" parent="PlayerController/Head"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.374012, -0.274848, -1.02036)
 
 [node name="HeadRaycast" type="RayCast3D" parent="PlayerController"]
 target_position = Vector3(0, 2, 0)
@@ -460,6 +475,14 @@ one_shot = true
 [node name="PlayerMidAir" type="Node" parent="PlayerController/State Machine" node_paths=PackedStringArray("player")]
 script = ExtResource("11_qa8fk")
 player = NodePath("../..")
+
+[node name="PickupDetection" type="Area3D" parent="PlayerController"]
+collision_layer = 0
+collision_mask = 8
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="PlayerController/PickupDetection"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.49759, 0)
+shape = SubResource("BoxShape3D_4mnk3")
 
 [connection signal="update_ammo" from="PlayerController/Head/ShakeableCamera/WeaponsManager" to="PlayerController/CanvasLayer" method="_on_weapons_manager_update_ammo"]
 [connection signal="update_weapon_stack" from="PlayerController/Head/ShakeableCamera/WeaponsManager" to="PlayerController/CanvasLayer" method="_on_weapons_manager_update_weapon_stack"]

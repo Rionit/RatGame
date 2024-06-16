@@ -7,6 +7,8 @@
 [sub_resource type="BoxMesh" id="BoxMesh_ptl5n"]
 
 [node name="Box" type="RigidBody3D" groups=["Target"]]
+collision_layer = 4
+collision_mask = 7
 script = ExtResource("1_4ffj1")
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="."]
