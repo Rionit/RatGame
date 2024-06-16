@@ -55,8 +55,10 @@ func initialize(_start_weapons: Array[String]):
 	
 	for weapon in _weapon_droppables:
 		var temp = weapon.instantiate()
-		weapon_drop_list[temp.weapon.weapon_name] = weapon
+		weapon_drop_list[temp._weapon.weapon_name] = weapon
 		temp.queue_free()
+	
+	print(weapon_drop_list.keys())
 	
 	for i in _start_weapons:
 		weapon_stack.push_back(i)
@@ -186,17 +188,17 @@ func remove_exclusion(projectile_rid):
 func pickup():
 	var collider = reach.get_collider()
 	if reach.is_colliding() and collider.is_in_group("Weapon"):
-		var weapon_in_stack = weapon_stack.find(collider.weapon.weapon_name, 0)
+		var weapon_in_stack = weapon_stack.find(collider.weapon_name, 0)
 		
 		if weapon_in_stack == -1:
 			var getref = weapon_stack.find(current_weapon.weapon_name)
-			weapon_stack.insert(getref, collider.weapon.weapon_name)
+			weapon_stack.insert(getref, collider.weapon_name)
 			
-			weapon_list[collider.weapon.weapon_name].current_ammo = collider.weapon.current_ammo
-			weapon_list[collider.weapon.weapon_name].reserve_ammo = collider.weapon.reserve_ammo
+			weapon_list[collider.weapon_name].current_ammo = collider.current_ammo
+			weapon_list[collider.weapon_name].reserve_ammo = collider.reserve_ammo
 			
 			emit_signal("update_weapon_stack", weapon_stack)
-			exit(collider.weapon.weapon_name)
+			exit(collider.weapon_name)
 			collider.queue_free()
 
 func drop(_name: String):
@@ -210,8 +212,8 @@ func drop(_name: String):
 		emit_signal("update_weapon_stack", weapon_stack)
 		
 		var weapon_dropped = weapon_drop_list[_name].instantiate()
-		weapon_dropped.weapon.current_ammo = weapon_list[_name].current_ammo
-		weapon_dropped.weapon.reserve_ammo = weapon_list[_name].reserve_ammo
+		weapon_dropped.current_ammo = weapon_list[_name].current_ammo
+		weapon_dropped.reserve_ammo = weapon_list[_name].reserve_ammo
 		
 		weapon_dropped.set_global_transform(get_global_transform())
 		

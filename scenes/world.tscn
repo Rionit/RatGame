@@ -1,4 +1,4 @@
-[gd_scene load_steps=15 format=3 uid="uid://behe2w2cnkvcb"]
+[gd_scene load_steps=16 format=3 uid="uid://behe2w2cnkvcb"]
 
 [ext_resource type="PackedScene" uid="uid://bjk686hqbngwk" path="res://scenes/player.tscn" id="1_dfhwj"]
 [ext_resource type="PackedScene" uid="uid://c8pwxuolbgfwp" path="res://scenes/trauma_causer.tscn" id="1_eenrk"]
@@ -6,6 +6,7 @@
 [ext_resource type="PackedScene" uid="uid://mwc0kv7qplm6" path="res://scenes/debug_interface.tscn" id="4_ly1lk"]
 [ext_resource type="PackedScene" uid="uid://blttmwi8ltt1o" path="res://scenes/box.tscn" id="5_pcjo1"]
 [ext_resource type="PackedScene" uid="uid://g806mhibjyum" path="res://spawnable weapons/pistol.tscn" id="6_jeoym"]
+[ext_resource type="PackedScene" uid="uid://dvpcr5ayw6wfa" path="res://spawnable weapons/blasterA.tscn" id="7_66eko"]
 
 [sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_fme3q"]
 sky_horizon_color = Color(0.64625, 0.65575, 0.67075, 1)
@@ -103,3 +104,6 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 6.28838, 0.497922, -9.16797)
 
 [node name="Pistol" parent="." instance=ExtResource("6_jeoym")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 6.86034, 0.0186772, -6.21327)
+
+[node name="BlasterA" parent="." instance=ExtResource("7_66eko")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 8.88321, 0.259873, -9.1398)

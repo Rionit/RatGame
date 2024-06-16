@@ -52,7 +52,7 @@ points = PackedVector3Array(0.274696, 0.188851, 0.00433134, 0.314111, 0.17683, 0
 collision_layer = 8
 collision_mask = 13
 script = ExtResource("1_5y5tq")
-weapon = ExtResource("2_pwqmy")
+_weapon = ExtResource("2_pwqmy")
 
 [node name="Pistol_3" type="MeshInstance3D" parent="."]
 mesh = SubResource("ArrayMesh_wojb5")
