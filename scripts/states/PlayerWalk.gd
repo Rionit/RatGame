@@ -4,7 +4,7 @@ class_name PlayerWalk
 
 func enter():
 	player.speed = WALK_SPEED
-	
+	fall_shake()
 
 func update(_delta: float):
 	if Input.is_action_pressed("sprint"):

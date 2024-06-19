@@ -402,33 +402,12 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.599442, 0)
 shape = SubResource("CapsuleShape3D_ig7i6")
 disabled = true
 
-[node name="Head" type="Node3D" parent="PlayerController"]
+[node name="Head" type="Node3D" parent="PlayerController" node_paths=PackedStringArray("player")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.7, 0)
 script = ExtResource("2_kkh2j")
+player = NodePath("..")
 
 [node name="ShakeableCamera" parent="PlayerController/Head" instance=ExtResource("3_dl84w")]
-
-[node name="WeaponsManager" type="Node3D" parent="PlayerController/Head/ShakeableCamera"]
-script = ExtResource("4_j0n71")
-_weapon_droppables = Array[PackedScene]([ExtResource("7_wqid5"), ExtResource("8_s4vhq")])
-_weapon_resources = Array[Resource("res://resources/WeaponResource.gd")]([ExtResource("5_gqqtc"), ExtResource("6_mj50e")])
-start_weapons = Array[String](["BlasterA"])
-
-[node name="WeaponRig" type="Node3D" parent="PlayerController/Head/ShakeableCamera/WeaponsManager"]
-
-[node name="Pistol" parent="PlayerController/Head/ShakeableCamera/WeaponsManager/WeaponRig" instance=ExtResource("7_216v7")]
-transform = Transform3D(-3.61999e-06, 0, 1, 0, 1, 0, -1, 0, -3.61999e-06, 0, -0.966354, 0)
-visible = false
-
-[node name="blasterA" parent="PlayerController/Head/ShakeableCamera/WeaponsManager/WeaponRig" instance=ExtResource("8_70bh4")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.148252, -0.966354, 0)
-visible = false
-
-[node name="AnimationPlayer" type="AnimationPlayer" parent="PlayerController/Head/ShakeableCamera/WeaponsManager/WeaponRig"]
-unique_name_in_owner = true
-libraries = {
-"": SubResource("AnimationLibrary_xsl1q")
-}
 
 [node name="Reach" type="RayCast3D" parent="PlayerController/Head"]
 unique_name_in_owner = true
@@ -438,7 +417,30 @@ collision_mask = 9
 [node name="TemporaryMuzzle" type="Node3D" parent="PlayerController/Head"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.374012, -0.274848, -1.02036)
 
+[node name="WeaponsManager" type="Node3D" parent="PlayerController/Head"]
+script = ExtResource("4_j0n71")
+_weapon_droppables = Array[PackedScene]([ExtResource("7_wqid5"), ExtResource("8_s4vhq")])
+_weapon_resources = Array[Resource("res://resources/WeaponResource.gd")]([ExtResource("5_gqqtc"), ExtResource("6_mj50e")])
+start_weapons = Array[String](["BlasterA"])
+
+[node name="WeaponRig" type="Node3D" parent="PlayerController/Head/WeaponsManager"]
+
+[node name="Pistol" parent="PlayerController/Head/WeaponsManager/WeaponRig" instance=ExtResource("7_216v7")]
+transform = Transform3D(-3.61999e-06, 0, 1, 0, 1, 0, -1, 0, -3.61999e-06, 0, -0.966354, 0)
+visible = false
+
+[node name="blasterA" parent="PlayerController/Head/WeaponsManager/WeaponRig" instance=ExtResource("8_70bh4")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.148252, -0.966354, 0)
+visible = false
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="PlayerController/Head/WeaponsManager/WeaponRig"]
+unique_name_in_owner = true
+libraries = {
+"": SubResource("AnimationLibrary_xsl1q")
+}
+
 [node name="HeadRaycast" type="RayCast3D" parent="PlayerController"]
+unique_name_in_owner = true
 target_position = Vector3(0, 2, 0)
 
 [node name="State Machine" type="Node" parent="PlayerController" node_paths=PackedStringArray("initial_state")]
@@ -484,8 +486,8 @@ collision_mask = 8
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.49759, 0)
 shape = SubResource("BoxShape3D_4mnk3")
 
-[connection signal="update_ammo" from="PlayerController/Head/ShakeableCamera/WeaponsManager" to="PlayerController/CanvasLayer" method="_on_weapons_manager_update_ammo"]
-[connection signal="update_weapon_stack" from="PlayerController/Head/ShakeableCamera/WeaponsManager" to="PlayerController/CanvasLayer" method="_on_weapons_manager_update_weapon_stack"]
-[connection signal="weapon_changed" from="PlayerController/Head/ShakeableCamera/WeaponsManager" to="PlayerController/CanvasLayer" method="_on_weapons_manager_weapon_changed"]
-[connection signal="animation_finished" from="PlayerController/Head/ShakeableCamera/WeaponsManager/WeaponRig/AnimationPlayer" to="PlayerController/Head/ShakeableCamera/WeaponsManager" method="_on_animation_player_animation_finished"]
+[connection signal="update_ammo" from="PlayerController/Head/WeaponsManager" to="PlayerController/CanvasLayer" method="_on_weapons_manager_update_ammo"]
+[connection signal="update_weapon_stack" from="PlayerController/Head/WeaponsManager" to="PlayerController/CanvasLayer" method="_on_weapons_manager_update_weapon_stack"]
+[connection signal="weapon_changed" from="PlayerController/Head/WeaponsManager" to="PlayerController/CanvasLayer" method="_on_weapons_manager_weapon_changed"]
+[connection signal="animation_finished" from="PlayerController/Head/WeaponsManager/WeaponRig/AnimationPlayer" to="PlayerController/Head/WeaponsManager" method="_on_animation_player_animation_finished"]
 [connection signal="timeout" from="PlayerController/State Machine/PlayerSlide/SlideTimer" to="PlayerController/State Machine/PlayerSlide" method="_on_slide_timer_timeout"]

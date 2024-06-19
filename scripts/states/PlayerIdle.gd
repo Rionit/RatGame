@@ -3,8 +3,7 @@ class_name PlayerIdle
 
 func enter():
 	player.speed = 0.0
-	if last_state and last_state.name in ["PlayerJump", "PlayerMidAir"]:
-		player.head.shake(0.5)
+	fall_shake()
 	
 func update(_delta):
 	if Input.is_action_pressed("crouch"):

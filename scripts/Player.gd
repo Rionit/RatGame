@@ -19,7 +19,7 @@ func _unhandled_input(event):
 func _physics_process(delta):
 	head.update(velocity, delta)
 	
-	Global.debug.add_property("Velocity", snapped(velocity.length(), 0.01), 2)
+	Global.debug.add_property("Velocity", velocity.length(), 2)
 	
 	move_and_slide()
 

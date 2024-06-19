@@ -1,9 +1,9 @@
 extends Node3D
 class_name HeadMovement
 
-@onready var head_raycast = $"../HeadRaycast"
+@onready var head_raycast = %HeadRaycast
 @onready var camera = $ShakeableCamera.camera
-@onready var player = $".."
+@export var player : CharacterBody3D
 
 var t_bob = 0.0
 
@@ -12,11 +12,11 @@ var t_bob = 0.0
 @export var TILT_ANGLE = 5.0
 @export var BOB_FREQ = 2.0
 @export var BOB_AMP = 0.08
-@export var CROUCH_DEPTH = 0.0
+var CROUCH_DEPTH = 0.0
 
 func update(velocity, delta):
 	position.y = lerp(position.y, 1.8 + CROUCH_DEPTH, delta * 10)
-	update_headbob(velocity, delta)
+	#update_headbob(velocity, delta)
 	update_fov(velocity, delta)
 	update_tilt(delta)
 

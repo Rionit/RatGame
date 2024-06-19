@@ -1,4 +1,5 @@
 extends PanelContainer
+class_name DebugInterface
 
 @onready var property_container = %VBoxContainer
 
@@ -20,6 +21,10 @@ func _input(event):
 func add_property(title: String, value, order):
 	var target
 	target = property_container.find_child(title, true, false)
+	
+	if value is float:
+		value = snapped(value, 0.01)
+	
 	if !target:
 		target = Label.new()
 		property_container.add_child(target)

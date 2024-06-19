@@ -4,7 +4,7 @@ signal weapon_changed
 signal update_ammo
 signal update_weapon_stack
 
-@onready var temporary_muzzle = $"../../TemporaryMuzzle"
+@onready var temporary_muzzle = $"../TemporaryMuzzle"
 @onready var animation_player = get_node("%AnimationPlayer")
 @onready var reach = %Reach
 

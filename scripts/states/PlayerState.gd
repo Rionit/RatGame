@@ -15,6 +15,10 @@ const CROUCHING_DEPTH = -0.5
 var direction = Vector3.ZERO
 var gravity = 9.8
 
+func fall_shake():
+	if last_state and last_state.name in ["PlayerJump", "PlayerMidAir"]:
+		player.head.shake(0.5)
+
 func handle_gravity(delta):
 	if not player.is_on_floor():
 		player.velocity.y -= gravity * delta

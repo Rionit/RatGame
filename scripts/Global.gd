@@ -1,3 +1,3 @@
 extends Node
 
-var debug # Reference to DebugPanel for debug properties assignment
+var debug : DebugInterface # Reference to DebugPanel for debug properties assignment
