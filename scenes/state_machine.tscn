@@ -1,0 +1,47 @@
+[gd_scene load_steps=9 format=3 uid="uid://5r3dqws2ogsv"]
+
+[ext_resource type="Script" path="res://scripts/StateMachine.gd" id="1_bifty"]
+[ext_resource type="Script" path="res://scripts/states/PlayerIdle.gd" id="2_lp6tx"]
+[ext_resource type="Script" path="res://scripts/states/PlayerWalk.gd" id="3_onjk5"]
+[ext_resource type="Script" path="res://scripts/states/PlayerSprint.gd" id="4_b1dyy"]
+[ext_resource type="Script" path="res://scripts/states/PlayerJump.gd" id="5_h8abx"]
+[ext_resource type="Script" path="res://scripts/states/PlayerCrouch.gd" id="6_nrpm1"]
+[ext_resource type="Script" path="res://scripts/states/PlayerSlide.gd" id="7_grety"]
+[ext_resource type="Script" path="res://scripts/states/PlayerMidAir.gd" id="8_n3wxn"]
+
+[node name="State Machine" type="Node" node_paths=PackedStringArray("initial_state")]
+script = ExtResource("1_bifty")
+initial_state = NodePath("PlayerIdle")
+
+[node name="PlayerIdle" type="Node" parent="." node_paths=PackedStringArray("player")]
+script = ExtResource("2_lp6tx")
+player = NodePath("")
+
+[node name="PlayerWalk" type="Node" parent="." node_paths=PackedStringArray("player")]
+script = ExtResource("3_onjk5")
+player = NodePath("")
+
+[node name="PlayerSprint" type="Node" parent="." node_paths=PackedStringArray("player")]
+script = ExtResource("4_b1dyy")
+player = NodePath("")
+
+[node name="PlayerJump" type="Node" parent="." node_paths=PackedStringArray("player")]
+script = ExtResource("5_h8abx")
+player = NodePath("")
+
+[node name="PlayerCrouch" type="Node" parent="." node_paths=PackedStringArray("player")]
+script = ExtResource("6_nrpm1")
+player = NodePath("")
+
+[node name="PlayerSlide" type="Node" parent="." node_paths=PackedStringArray("player")]
+script = ExtResource("7_grety")
+player = NodePath("")
+
+[node name="SlideTimer" type="Timer" parent="PlayerSlide"]
+one_shot = true
+
+[node name="PlayerMidAir" type="Node" parent="." node_paths=PackedStringArray("player")]
+script = ExtResource("8_n3wxn")
+player = NodePath("")
+
+[connection signal="timeout" from="PlayerSlide/SlideTimer" to="PlayerSlide" method="_on_slide_timer_timeout"]

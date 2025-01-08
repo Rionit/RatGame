@@ -1,4 +1,4 @@
-[gd_scene load_steps=33 format=3 uid="uid://bjk686hqbngwk"]
+[gd_scene load_steps=34 format=3 uid="uid://bjk686hqbngwk"]
 
 [ext_resource type="Script" path="res://scripts/Player.gd" id="1_iauj3"]
 [ext_resource type="Script" path="res://scripts/HUD.gd" id="2_aqg73"]
@@ -17,6 +17,7 @@
 [ext_resource type="PackedScene" uid="uid://j3jqadyosf80" path="res://meshes/weapons/blasterA.glb" id="8_70bh4"]
 [ext_resource type="PackedScene" uid="uid://dvpcr5ayw6wfa" path="res://spawnable weapons/blasterA.tscn" id="8_s4vhq"]
 [ext_resource type="Script" path="res://scripts/states/PlayerJump.gd" id="8_sy8tw"]
+[ext_resource type="Script" path="res://resources/WeaponResource.gd" id="9_gbl06"]
 [ext_resource type="Script" path="res://scripts/states/PlayerCrouch.gd" id="9_w0esf"]
 [ext_resource type="Script" path="res://scripts/states/PlayerSlide.gd" id="10_c8sae"]
 [ext_resource type="Script" path="res://scripts/states/PlayerMidAir.gd" id="11_qa8fk"]
@@ -420,7 +421,7 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.374012, -0.274848, -1.02036
 [node name="WeaponsManager" type="Node3D" parent="PlayerController/Head"]
 script = ExtResource("4_j0n71")
 _weapon_droppables = Array[PackedScene]([ExtResource("7_wqid5"), ExtResource("8_s4vhq")])
-_weapon_resources = Array[Resource("res://resources/WeaponResource.gd")]([ExtResource("5_gqqtc"), ExtResource("6_mj50e")])
+_weapon_resources = Array[ExtResource("9_gbl06")]([ExtResource("5_gqqtc"), ExtResource("6_mj50e")])
 start_weapons = Array[String](["BlasterA"])
 
 [node name="WeaponRig" type="Node3D" parent="PlayerController/Head/WeaponsManager"]

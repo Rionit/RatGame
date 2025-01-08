@@ -28,4 +28,3 @@ func handle_mouse_input(event):
 		rotate_y(deg_to_rad(-event.relative.x * SENSITIVITY))
 		head.rotate_x(deg_to_rad(-event.relative.y * SENSITIVITY))
 		head.rotation.x = clamp(head.rotation.x, deg_to_rad(-89), deg_to_rad(89))
-
